@@ -73,6 +73,7 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 
+usermod -a -G vboxusers $USER
 print_status "${YELLOW}Installing genisoimage${NC}"
 apt-get install mkisofs genisoimage -y &>> $logfile
 error_check 'Genisoimage installed'
@@ -109,6 +110,10 @@ echo -e "${YELLOW}What is the IP  address you would like to assign this machine?
 read ipaddress
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
+echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
+read ram
+echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine?${NC}"
+read cpu
 echo -e "${YELLOW}What is the key?${NC}"
 read key
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
@@ -116,11 +121,11 @@ read distro
 
 
 echo -e "${YELLOW}###################################${NC}"
-echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd like...${NC}"
+echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
 echo
 sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --ramsize 2048 –-cpus 2 --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/ $name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/ $name &>> $logfile
 error_check 'Created VMs'
 vmcloak install $name adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 &>> $logfile
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on VMs'

@@ -143,17 +143,17 @@ error_check 'ISO mounted'
 echo -e "${YELLOW}What is the license key?${NC}"
 read key
 echo -e "${YELLOW}Installing Office 2007${NC}"
-vmcloak install --vm-visible $name office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
+vmcloak install $name --vm-visible office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
 error_check 'Office 2007 installed'
 fi
-
+echo
 echo -e "${YELLOW}Installing adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on the VM${NC}"
-vmcloak install --vm-visible $name adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 &>> $logfile
-error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on VMs'
+vmcloak install $name --vm-visible adobe9 wic pillow dotnet40 java7 removetooltips chrome &>> $logfile
+error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-vmcloak snapshot $name vmcloak &>> $logfile
+vmcloak snapshot $name $name &>> $logfile
 error_check 'Created snapshot'
 
 echo -e "${YELLOW}Running some cleanup...Please wait.${NC}"  
@@ -161,7 +161,7 @@ echo -e "${YELLOW}Running some cleanup...Please wait.${NC}"
 umount /mnt/windows_ISOs &>> $logfile
 umount /mnt/office2007 &>> $logfile
 
-sudo -u $cuser vmcloak-modify --vm-visible $name
+vmcloak-modify --vm-visible $name
 
 echo
 echo -e "${YELLOW}The VM is located under your current OR sudo user's home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  

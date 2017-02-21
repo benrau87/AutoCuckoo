@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
-  exit 1
+exit 1
 fi
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -73,7 +73,6 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 
-usermod -a -G vboxusers $USER
 print_status "${YELLOW}Installing genisoimage${NC}"
 apt-get install mkisofs genisoimage -y &>> $logfile
 error_check 'Genisoimage installed'
@@ -127,10 +126,6 @@ sleep 5
 #--hwvirt
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/ $name &>> $logfile
 error_check 'Created VMs'
-vmcloak install $name adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 &>> $logfile
-error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on VMs'
-
-
 echo
 read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
@@ -148,9 +143,13 @@ error_check 'ISO mounted'
 echo -e "${YELLOW}What is the license key?${NC}"
 read key
 echo -e "${YELLOW}Installing Office 2007${NC}"
-vmcloak-install $name office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
+vmcloak-install $name --vm-visible office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
 error_check 'Office 2007 installed'
 fi
+
+echo -e "${YELLOW}Installing adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on the VM${NC}"
+sudo -u $cuser vmcloak install $name adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 &>> $logfile
+error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on VMs'
 
 echo
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
@@ -158,9 +157,12 @@ vmcloak snapshot $name vmcloak &>> $logfile
 error_check 'Created snapshot'
 
 echo -e "${YELLOW}Running some cleanup...Please wait.${NC}"  
-chown -R cuckoo:cuckoo ~/.vmcloak  &>> $logfile
+
 umount /mnt/windows_ISOs &>> $logfile
 umount /mnt/office2007 &>> $logfile
+
+sudo -u $cuser vmcloak-modify --vm-visible $name
+
 echo
 echo -e "${YELLOW}The VM is located under your current OR sudo user's home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
 

@@ -156,12 +156,19 @@ echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC
 vmcloak snapshot $name $name &>> $logfile
 error_check 'Created snapshot'
 
+echo
+read -p "Would you like to register this machine with cuckoo? Y/N" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+python /etc/cuckoo-modified/utils/machine.py --add $name --ip $ipaddress --platform $distro &>> $logfile
+error_check 'VMs registered with cuckoo'
+fi
+
 echo -e "${YELLOW}Running some cleanup...Please wait.${NC}"  
 
 umount /mnt/windows_ISOs &>> $logfile
 umount /mnt/office2007 &>> $logfile
 
-vmcloak-modify --vm-visible $name
 
 echo
 echo -e "${YELLOW}The VM is located under your current OR sudo user's home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  

@@ -160,7 +160,7 @@ echo
 read -p "Would you like to register this machine with cuckoo? Y/N" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-python /etc/cuckoo-modified/utils/machine.py --add $name --ip $ipaddress --platform $distro &>> $logfile
+python /etc/cuckoo-modified/utils/machine.py --add $name --ip $ipaddress --platform windows &>> $logfile
 error_check 'VMs registered with cuckoo'
 fi
 

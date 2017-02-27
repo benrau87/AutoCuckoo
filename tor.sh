@@ -73,5 +73,20 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 
+print_status "${YELLOW}Installing Tor..${NC}"
+apt-get install tor -y &>> $logfile
+error_check 'Tor installed'
 
- apt-get install tor -y 
+print_status "${YELLOW}Downloading Tor Route..${NC}"
+git clone https://github.com/seanthegeek/routetor.git &>> $logfile
+error_check 'TorRoute downloaded'
+cd routetor
+sudo cp *tor* /usr/sbin &>> $logfile
+error_check 'TorRoute scripts installed'
+
+echo "TransListenAddress 192.168.56.1" | sudo tee /etc/tor/torrc &>> $logfile
+echo "TransPort 9040" | sudo tee /etc/tor/torrc &>> $logfile
+echo "DNSListenAddress 192.168.56.1" | sudo tee /etc/tor/torrc &>> $logfile
+echo "DNSPort 5353" | sudo tee /etc/tor/torrc &>> $logfile
+
+service tor restart

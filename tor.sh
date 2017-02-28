@@ -75,8 +75,8 @@ fi
 
 print_status "${YELLOW}Installing Tor..${NC}"
 apt-get update -y &>> $logfile
-echo "deb http://deb.torproject.org/torproject.org xenial main" |  sudo tee /etc/apt/sources.list &>> $logfile
-echo "deb-src http://deb.torproject.org/torproject.org xenial main" |  sudo tee /etc/apt/sources.list &>> $logfile
+echo "deb http://deb.torproject.org/torproject.org xenial main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
+echo "deb-src http://deb.torproject.org/torproject.org xenial main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
 gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 &>> $logfile
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add - &>> $logfile
 apt-get update &>> $logfile
@@ -90,10 +90,10 @@ cd routetor
 sudo cp *tor* /usr/sbin &>> $logfile
 error_check 'TorRoute scripts installed'
 
-echo "TransListenAddress 192.168.56.1" | sudo tee /etc/tor/torrc &>> $logfile
-echo "TransPort 9040" | sudo tee /etc/tor/torrc &>> $logfile
-echo "DNSListenAddress 192.168.56.1" | sudo tee /etc/tor/torrc &>> $logfile
-echo "DNSPort 5353" | sudo tee /etc/tor/torrc &>> $logfile
+echo "TransListenAddress 192.168.56.1" | sudo tee -a /etc/tor/torrc &>> $logfile
+echo "TransPort 9040" | sudo tee -a /etc/tor/torrc &>> $logfile
+echo "DNSListenAddress 192.168.56.1" | sudo tee -a /etc/tor/torrc &>> $logfile
+echo "DNSPort 5353" | sudo tee -a /etc/tor/torrc &>> $logfile
 
 service tor restart
 /usr/sbin/routetor &

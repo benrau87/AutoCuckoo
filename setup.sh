@@ -394,6 +394,15 @@ error_check 'Security upgrades'
 fi
 echo
 
+read -p "Would you like to setup Tor routing option Y/N" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+echo
+bash $gitdir/tor.sh  &>> $logfile
+error_check 'Tor installed'
+fi
+echo
+
 read -p "Would you like secure the Cuckoo webserver with SSL? Y/N" -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then

@@ -97,6 +97,10 @@ cd routetor
 sudo cp *tor* /usr/sbin &>> $logfile
 error_check 'TorRoute scripts installed'
 
-crontab -l | { cat; echo "@reboot /usr/sbin/routetor"; } | crontab -
 
+print_status "${YELLOW}Adding cron job for starting Tor at boot..${NC}"
+crontab -l | { cat; echo "@reboot /usr/sbin/routetor"; } | crontab -
+error_check 'Cron job added'
+
+print_status "${YELLOW}Starting Routetor${NC}"
 /usr/sbin/routetor &

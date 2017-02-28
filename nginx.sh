@@ -80,16 +80,22 @@ read ipaddr
 echo
 
 ##Install nginx
-apt-get -qq install nginx apache2-utils -y
-usermod -a -G cuckoo $user
-
+print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+   sleep 1
+done
+print_status "${YELLOW}Installing Nginx...${NC}"
+apt-get -qq install nginx apache2-utils -y &>> $logfile
+usermod -a -G cuckoo $user &>> $logfile
+error_check 'Nginx installed'
 ##Copy over service conf
 cp nginx.service /lib/systemd/system/
 
 ##Create and secure keys
-mkdir /etc/ssl/cuckoo/
-cd /etc/ssl/cuckoo/
-openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt
+mkdir /etc/ssl/cuckoo/ &>> $logfile
+cd /etc/ssl/cuckoo/ &>> $logfile
+openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
 openssl dhparam -out dhparam.pem 4096
 cd ..
 mv cuckoo /etc/nginx

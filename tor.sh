@@ -97,4 +97,6 @@ cd routetor
 sudo cp *tor* /usr/sbin &>> $logfile
 error_check 'TorRoute scripts installed'
 
+crontab -l | { cat; echo "@reboot /usr/sbin/routetor"; } | crontab -
+
 /usr/sbin/routetor &

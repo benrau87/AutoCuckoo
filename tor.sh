@@ -9,7 +9,7 @@ NC='\033[0m'
 gitdir=$PWD
 
 ##Logging setup
-logfile=/var/log/vmcloak_install.log
+logfile=/var/log/tor_install.log
 mkfifo ${logfile}.pipe
 tee < ${logfile}.pipe $logfile &
 exec &> ${logfile}.pipe
@@ -74,6 +74,7 @@ fi
 ############################################################################################################################
 
 print_status "${YELLOW}Installing Tor..${NC}"
+apt-get update -y &>> $logfile
 apt-get install tor -y &>> $logfile
 error_check 'Tor installed'
 

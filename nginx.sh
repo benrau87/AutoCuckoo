@@ -203,6 +203,7 @@ server {
     }
 }
 EOF &>> $logfile
+error_check 'Site configured'
 
 mv /tmp/cuckoo /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/cuckoo /etc/nginx/sites-enabled/cuckoo

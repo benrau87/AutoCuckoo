@@ -95,16 +95,21 @@ cp nginx.service /lib/systemd/system/
 ##Create and secure keys
 mkdir /etc/ssl/cuckoo/ &>> $logfile
 cd /etc/ssl/cuckoo/ &>> $logfile
-openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
-openssl dhparam -out dhparam.pem 4096
+#openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
+print_status "${YELLOW}Configuring and installing SSL keys...${NC}"
+openssl req -subj '/CN=Cuckoo_Sandbox/'-x509 -nodes -days 3650 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt &>> $logfile
+openssl dhparam -out dhparam.pem 4096 &>> $logfile
+error_check 'SSL configured'
 cd ..
-mv cuckoo /etc/nginx
-mv /etc/nginx/cuckoo /etc/nginx/ssl
-chown -R root:www-data /etc/nginx/ssl
-chmod -R u=rX,g=rX,o= /etc/nginx/ssl
+mv cuckoo /etc/nginx &>> $logfile
+mv /etc/nginx/cuckoo /etc/nginx/ssl &>> $logfile
+chown -R root:www-data /etc/nginx/ssl &>> $logfile
+chmod -R u=rX,g=rX,o= /etc/nginx/ssl &>> $logfile
 
 ##Remove default sites and create new cuckoo site
-rm /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-enabled/default &>> $logfile
+
+print_status "${YELLOW}Configuring Nginx webserver...${NC}"
 
 sudo tee -a /tmp/cuckoo <<EOF
 server {
@@ -197,7 +202,7 @@ server {
       #deny all;
     }
 }
-EOF
+EOF &>> $logfile
 
 mv /tmp/cuckoo /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/cuckoo /etc/nginx/sites-enabled/cuckoo

@@ -111,7 +111,7 @@ rm /etc/nginx/sites-enabled/default &>> $logfile
 
 print_status "${YELLOW}Configuring Nginx webserver...${NC}"
 
-sudo tee -a /tmp/cuckoo <<EOF
+sudo  cat >> /tmp/cuckoo <<EOF
 server {
     listen $ipaddr:443 ssl http2;
     ssl_certificate /etc/nginx/ssl/cuckoo.crt;
@@ -202,7 +202,8 @@ server {
       #deny all;
     }
 }
-EOF &>> $logfile
+EOF
+
 error_check 'Site configured'
 
 mv /tmp/cuckoo /etc/nginx/sites-available/

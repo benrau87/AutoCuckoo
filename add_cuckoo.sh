@@ -96,7 +96,7 @@ print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install linux-headers-$(uname -r) &>> $logfile
-apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev &>> $logfile
+apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing DTrace${NC}"

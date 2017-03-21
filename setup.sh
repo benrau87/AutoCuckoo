@@ -93,10 +93,10 @@ read name
 adduser $name --gecos ""
 
 ##Add startup script to cuckoo users home folder
-chmod +x start_cuckoo.sh
-chown $name:$name start_cuckoo.sh
+chmod +x start_cuckoo-modified.sh
+chown $name:$name start_cuckoo-modified.sh
 cd $gitdir
-mv start_cuckoo.sh /home/$name/
+mv start_cuckoo-modified.sh /home/$name/
 
 ##Start mongodb 
 chmod 755 mongodb.service

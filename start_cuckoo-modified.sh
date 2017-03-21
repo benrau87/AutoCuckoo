@@ -27,6 +27,6 @@ fi
 python /etc/cuckoo-modified/utils/community.py --force --all
 cd /etc/cuckoo-modified/web/
 ./manage.py migrate
-./manage.py runserver 127.0.0.1:8000 &
+./manage.py runserver 127.0.0.1:8001 &
 cd ..
 ./cuckoo.py --debug

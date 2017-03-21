@@ -338,7 +338,6 @@ error_check 'Windows depos downloaded'
 ##Change ownership for folder that have been created
 chown -R $name:$name /home/$name/*
 chown -R $name:$name /etc/cuckoo-modified/*
-chmod -R 777 /etc/cuckoo-modified/
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 VBoxManage hostonlyif create

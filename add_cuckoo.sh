@@ -81,6 +81,7 @@ mv start_cuckoo.sh /home/$name/
 print_status "${YELLOW}Downloading Cuckoo${NC}"
 git clone https://github.com/cuckoosandbox/cuckoo.git  &>> $logfile
 error_check 'Cuckoo downloaded'
+cp -rf $gitdir/conf/ cuckoo/
 chown -R $name:$name cuckoo
 mv cuckoo /etc/
 

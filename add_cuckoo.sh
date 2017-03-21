@@ -95,7 +95,7 @@ sudo make load &>> $logfile
 error_check 'DTrace installed'
 
 print_status "${YELLOW}Installing MitM proxy${NC}"
-apt-get install -y libpcre++-dev uthash-dev libarchive-dev mitmproxy  &>> $logfile
+apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr mitmproxy &>> $logfile
 error_check 'MitM proxy installed'
 print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
 mitmproxy & 

@@ -116,7 +116,7 @@ apt-get install -y mitmproxy &>> $logfile
 error_check 'MitM proxy installed'
 print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
 mitmproxy & 
-sudo cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /etc/cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
+sudo cp ~./mitmproxy/mitmproxy-ca-cert.p12 /etc/cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
 
 print_status "${YELLOW}Installing Snort${NC}"
 apt-get install snort -qq

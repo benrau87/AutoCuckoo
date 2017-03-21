@@ -1,4 +1,4 @@
-# cuckoo_host
+# Cuckoo Installation
 Host installation script
 
 Usage:

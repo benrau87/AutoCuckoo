@@ -88,6 +88,7 @@ mv cuckoo /etc/
 print_status "${YELLOW}Downloading and installing DTrace${NC}"
 cd /etc
 git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile
+cd dtrace
 bash tools/get-deps.pl -y &>> $logfile
 make all &>> $logfile
 make install &>> $logfile
@@ -95,6 +96,7 @@ make load &>> $logfile
 error_check 'DTrace installed'
 
 print_status "${YELLOW}Installing MitM proxy${NC}"
+cd ~
 apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr mitmproxy &>> $logfile
 error_check 'MitM proxy installed'
 print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"

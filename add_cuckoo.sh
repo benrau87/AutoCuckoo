@@ -105,3 +105,5 @@ print_status "${YELLOW}Installing Snort${NC}"
 apt-get install snort -qq
 chmod -Rv 777 /etc/snort/
 chmod -Rv 777 /var/log/snort/
+error_check 'Snort Installed'
+

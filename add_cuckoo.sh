@@ -97,7 +97,7 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev &>> $logfile
-pip install m2crypo &>> $logfile
+pip install m2crypto &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing DTrace${NC}"

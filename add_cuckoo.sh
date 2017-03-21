@@ -92,6 +92,10 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 
+print_status "${YELLOW}Downloading and installing depos${NC}"
+apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev &>> $logfile
+error_check 'Depos installed'
+
 print_status "${YELLOW}Downloading and installing DTrace${NC}"
 cd /etc
 git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile
@@ -104,7 +108,7 @@ error_check 'DTrace installed'
 
 print_status "${YELLOW}Installing MitM proxy${NC}"
 cd ~
-apt-get install -y libpcre++-dev uthash-dev libarchive-dev tesseract-ocr mitmproxy &>> $logfile
+apt-get install -y mitmproxy &>> $logfile
 error_check 'MitM proxy installed'
 print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
 mitmproxy & 

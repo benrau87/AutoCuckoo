@@ -85,6 +85,13 @@ cp -rf $gitdir/conf/ cuckoo/
 chown -R $name:$name cuckoo
 mv cuckoo /etc/
 
+##Holding pattern for dpkg...
+print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+   sleep 1
+done
+
 print_status "${YELLOW}Downloading and installing DTrace${NC}"
 cd /etc
 git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile

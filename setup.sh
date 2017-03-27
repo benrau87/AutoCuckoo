@@ -305,6 +305,7 @@ mv /etc/cuckoo-modified/data/yara/binaries/Android* /etc/cuckoo-modified/data/ya
 rm /etc/cuckoo-modified/data/yara/binaries/vmdetect.yar  &>> $logfile
 rm /etc/cuckoo-modified/data/yara/binaries/antidebug_antivm.yar  &>> $logfile
 rm /etc/cuckoo-modified/data/yara/binaries/MALW_AdGholas.yar  &>> $logfile
+rm /etc/cuckoo-modified/data/yara/binaries/APT_Shamoon*.yar  &>> $logfile
 error_check 'Adding Yara rules'
 ##Office Decrypt
 cd /etc/cuckoo-modified/

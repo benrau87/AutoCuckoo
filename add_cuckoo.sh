@@ -125,3 +125,7 @@ chmod -Rv 777 /etc/snort/
 chmod -Rv 777 /var/log/snort/
 error_check 'Snort Installed'
 
+
+print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
+echo "$name ALL=(ALL) NOPASSWD: /usr/bin/python /etc/cuckoo/utils/rooter.py" >> /etc/sudoers &>> $logfile
+error_check 'Command Added'
